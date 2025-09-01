@@ -14,11 +14,5 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
-    // MCP configuration
-    "mui-mcp": {
-      type: "stdio",
-      command: "npx",
-      args: ["-y", "@mui/mcp@latest"],
-    },
   },
 });
