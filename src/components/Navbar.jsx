@@ -43,7 +43,6 @@ const Navbar = ({ window }) => {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
-              color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
@@ -70,7 +69,7 @@ const Navbar = ({ window }) => {
             "& .MuiDrawer-paper": {
               backdropFilter: "blur(8px)",
               backgroundColor: "rgba(0, 0, 0, 0.7)",
-              color: "#fff",
+              color: "primary.light",
               boxSizing: "border-box",
               width: drawerWidth,
             },
