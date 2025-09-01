@@ -4,11 +4,9 @@ import {
   Route,
   RouterProvider,
 } from "react-router";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { yellow, grey } from "@mui/material/colors";
-
 import MainLayout from "./layout/MainLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
@@ -36,15 +34,27 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Roboto, sans-serif", // Main font
+    fontFamily: "Roboto, sans-serif",
     h1: {
-      fontFamily: "Ranchers, cursive", // Accent font for headers
+      fontFamily: "Ranchers, cursive",
     },
     h2: {
       fontFamily: "Ranchers, cursive",
     },
+    h3: {
+      fontFamily: "Ranchers, cursive",
+    },
+    h4: {
+      fontFamily: "Ranchers, cursive",
+    },
+    h5: {
+      fontFamily: "Ranchers, cursive",
+    },
+    h6: {
+      fontFamily: "Ranchers, cursive",
+    },
     button: {
-      fontFamily: "Ranchers, cursive", // Optional: accent font for buttons
+      fontFamily: "Ranchers, cursive",
     },
   },
 });
