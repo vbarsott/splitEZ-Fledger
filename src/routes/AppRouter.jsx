@@ -23,7 +23,7 @@ const AppRouter = () => {
       </Route>
     ),
     {
-      basename: "/splitEZ",
+      basename: "/splitEZ-Fledger",
     }
   );
 
