@@ -1,45 +1,113 @@
 import { createTheme } from "@mui/material/styles";
-import { yellow, grey } from "@mui/material/colors";
+import { teal, blue, grey } from "@mui/material/colors";
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: grey[50],
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          light: teal[50],
+          main: teal[400],
+          dark: teal[800],
+          contrastText: "#fff",
+        },
+        secondary: {
+          light: blue[100],
+          main: blue[500],
+          dark: blue[900],
+          contrastText: "#fff",
+        },
+        background: {
+          default: "#fff",
+          paper: grey[800],
+          footerBg: teal[400],
+        },
+        text: {
+          primary: "#000",
+          secondary: grey[500],
+        },
+      },
+      components: {
+        MuiAppBar: {
+          styleOverrides: {
+            colorPrimary: {
+              backgroundColor: teal[400],
+            },
+          },
+        },
+      },
     },
-    secondary: {
-      main: yellow[800],
+
+    dark: {
+      palette: {
+        primary: {
+          light: teal[100],
+          main: teal[400],
+          dark: teal[900],
+          contrastText: "#fff",
+        },
+        secondary: {
+          light: blue[100],
+          main: blue[500],
+          dark: blue[900],
+          contrastText: "#fff",
+        },
+        background: {
+          default: "#000",
+          paper: grey[800],
+          footerBg: grey[900],
+        },
+        text: {
+          primary: "#fff",
+          secondary: grey[500],
+        },
+      },
+      components: {
+        MuiAppBar: {
+          styleOverrides: {
+            colorPrimary: {
+              backgroundColor: grey[900],
+            },
+          },
+        },
+      },
     },
   },
+
   typography: {
     fontFamily: "Roboto, sans-serif",
-    h1: {
-      fontFamily: "Ranchers, cursive",
-    },
-    h2: {
-      fontFamily: "Ranchers, cursive",
-    },
-    h3: {
-      fontFamily: "Ranchers, cursive",
-    },
-    h4: {
-      fontFamily: "Ranchers, cursive",
-    },
-    h5: {
-      fontFamily: "Ranchers, cursive",
-    },
-    h6: {
-      fontFamily: "Ranchers, cursive",
-    },
-    button: {
-      fontFamily: "Ranchers, cursive",
-    },
+    h1: { fontFamily: "Ranchers, cursive" },
+    h2: { fontFamily: "Ranchers, cursive" },
+    h3: { fontFamily: "Ranchers, cursive" },
+    h4: { fontFamily: "Ranchers, cursive" },
+    h5: { fontFamily: "Ranchers, cursive" },
+    h6: { fontFamily: "Ranchers, cursive" },
+    button: { fontFamily: "Ranchers, cursive" },
   },
+
   components: {
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          minHeight: "64px",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           borderRadius: 8,
         },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.primary.main,
+          "&.Mui-checked": {
+            color: theme.palette.primary.dark,
+          },
+        }),
       },
     },
   },

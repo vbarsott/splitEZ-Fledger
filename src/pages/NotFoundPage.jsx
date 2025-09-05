@@ -1,13 +1,36 @@
-import { Link } from "react-router";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 const NotFoundPage = () => {
   return (
     <>
-      <Box sx={{ textAlign: "center", m: 2 }}>
-        <Typography variant="h1">NotFoundPage</Typography>
-        <Link to={"/"}>Go to Home</Link>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          gap: 4,
+          flexWrap: "wrap",
+          height: "50vh",
+          width: { xs: "90%", sm: "70%", md: "50%" },
+          mx: "auto",
+        }}
+      >
+        <Typography variant="h3" component="h1" sx={{ letterSpacing: ".2rem" }}>
+          Page not found
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h2"
+          sx={{ textAlign: "center", fontFamily: "Roboto" }}
+        >
+          Apologies, but the page you were looking for wasn't found. Try
+          reaching for the search button on the nav bar above to look for
+          another one.
+        </Typography>
       </Box>
     </>
   );

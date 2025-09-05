@@ -5,12 +5,9 @@ const BrandLogo = () => (
     variant="h6"
     component="a"
     href="/"
+    color="inherit"
     sx={{
-      mr: 2,
-      flexGrow: 1,
-      display: { xs: "none", sm: "block" },
-      letterSpacing: ".2rem",
-      color: "primary.main",
+      letterSpacing: ".1rem",
       textDecoration: "none",
       fontFamily: "Ranchers, cursive",
     }}

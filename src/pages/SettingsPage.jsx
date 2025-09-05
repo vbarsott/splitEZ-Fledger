@@ -1,7 +1,8 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import ToggleColorMode from "../components/ToggleColorMode";
 
-const AboutPage = () => {
+const SettingsPage = () => {
   return (
     <>
       <Box
@@ -20,11 +21,13 @@ const AboutPage = () => {
           component="h1"
           sx={{ py: 2, letterSpacing: ".2rem" }}
         >
-          About SplitEZ
+          Settings
         </Typography>
+
+        <ToggleColorMode />
       </Box>
     </>
   );
 };
 
-export default AboutPage;
+export default SettingsPage;
