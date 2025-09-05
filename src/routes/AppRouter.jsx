@@ -9,6 +9,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import HomePage from "../pages/HomePage";
 import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
+import SettingsPage from "../pages/SettingsPage";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -18,6 +19,7 @@ const AppRouter = () => {
         <Route index element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
     )
   );

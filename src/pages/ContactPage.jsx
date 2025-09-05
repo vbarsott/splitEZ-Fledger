@@ -4,8 +4,24 @@ import Box from "@mui/material/Box";
 const ContactPage = () => {
   return (
     <>
-      <Box sx={{ textAlign: "center", m: 2 }}>
-        <Typography variant="h1">Contact SplitEZ</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          flexWrap: "wrap",
+          height: "50vh",
+        }}
+      >
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{ py: 2, letterSpacing: ".2rem" }}
+        >
+          Contact SplitEZ
+        </Typography>
       </Box>
     </>
   );
