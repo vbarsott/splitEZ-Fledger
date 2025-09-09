@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Box, Typography, Container } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import NavTabs from "./NavTabs";
@@ -26,7 +27,7 @@ const Footer = ({ currentTab, navItems }) => {
           >
             <Typography
               variant="h6"
-              component="a"
+              component={Link}
               href="/"
               color="inherit"
               sx={{

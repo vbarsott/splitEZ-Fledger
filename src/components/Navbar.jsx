@@ -54,11 +54,18 @@ const Navbar = ({ window, navItems }) => {
                 </Box>
 
                 <Box>
-                  <IconButton size="large" color="inherit">
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                  >
                     <SearchIcon />
                   </IconButton>
 
-                  <IconButton size="large" color="inherit" aria-label="search">
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                    aria-label="search"
+                  >
                     <AccountCircle />
                   </IconButton>
                 </Box>

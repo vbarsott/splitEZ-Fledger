@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 const BrandLogo = () => (
   <Typography
     variant="h6"
-    component="a"
+    component={Link}
     href="/"
     color="inherit"
     sx={{

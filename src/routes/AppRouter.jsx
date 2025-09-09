@@ -21,7 +21,10 @@ const AppRouter = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>
-    )
+    ),
+    {
+      basename: "/splitEZ-Fledger",
+    }
   );
 
   return <RouterProvider router={router} />;
