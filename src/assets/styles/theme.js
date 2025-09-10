@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { teal, blue, grey } from "@mui/material/colors";
+import { teal, blue, grey, yellow } from "@mui/material/colors";
 
 const theme = createTheme({
   colorSchemes: {
@@ -17,9 +17,15 @@ const theme = createTheme({
           dark: blue[900],
           contrastText: "#fff",
         },
+        accent: {
+          light: yellow[100],
+          main: yellow[800],
+          dark: yellow[900],
+          contrastText: "#fff",
+        },
         background: {
           default: "#fff",
-          paper: grey[800],
+          paper: "#fff",
           footerBg: teal[400],
         },
         text: {
@@ -52,9 +58,15 @@ const theme = createTheme({
           dark: blue[900],
           contrastText: "#fff",
         },
+        accent: {
+          light: yellow[100],
+          main: yellow[800],
+          dark: yellow[900],
+          contrastText: "#fff",
+        },
         background: {
           default: "#000",
-          paper: grey[800],
+          paper: grey[900],
           footerBg: grey[900],
         },
         text: {
@@ -93,13 +105,7 @@ const theme = createTheme({
         },
       },
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-        },
-      },
-    },
+
     MuiRadio: {
       styleOverrides: {
         root: ({ theme }) => ({

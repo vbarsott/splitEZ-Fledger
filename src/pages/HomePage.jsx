@@ -1,5 +1,22 @@
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Box, Typography, Paper } from "@mui/material";
+
+const descriptionItems = [
+  {
+    title: "Step 1: Create a group",
+    description:
+      "Select the button group, create a group, and inform the participant's names",
+  },
+  {
+    title: "Step 2: Add the expenses",
+    description:
+      "Select the button expenses and include the expenses according to the participant's names",
+  },
+  {
+    title: "Step 3: Check the result",
+    description:
+      "Select the button result and check how much each participant should pay to whom",
+  },
+];
 
 const HomePage = () => {
   return (
@@ -7,27 +24,51 @@ const HomePage = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 2,
           flexWrap: "wrap",
-          height: "50vh",
-          width: { xs: "90%", sm: "70%", md: "50%" },
-          mx: "auto",
+          gap: 2,
+          justifyContent: "center",
         }}
       >
-        <Typography variant="h1" sx={{ letterSpacing: ".2rem" }}>
-          SplitEZ
-        </Typography>
+        {descriptionItems.map((item) => (
+          <Paper
+            key={item.title}
+            elevation={3}
+            sx={{
+              flexBasis: {
+                xs: "100%",
+                sm: "100%",
+                md: "calc(33.33% - 16px)",
+              },
+              minWidth: "250px",
+              flexGrow: 1,
+              flexShrink: 0,
+              bgcolor: "default",
+              p: 2,
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="h3"
+              color="accent"
+              sx={{
+                letterSpacing: ".2rem",
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              {item.title}
+            </Typography>
 
-        <Typography
-          variant="h4"
-          component="h2"
-          sx={{ textAlign: "center", fontFamily: "Roboto" }}
-        >
-          "EZlly" split group expenses proportionally among all parties.
-        </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Roboto",
+                fontSize: 20,
+              }}
+            >
+              {item.description}
+            </Typography>
+          </Paper>
+        ))}
       </Box>
     </>
   );

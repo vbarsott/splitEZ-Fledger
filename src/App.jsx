@@ -1,8 +1,7 @@
 import theme from "./assets/styles/theme";
-import AppRouter from "./routes/AppRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import Toolbar from "@mui/material/Toolbar";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
         disableTransitionOnChange
         noSsr
       >
-        <Toolbar />
         <CssBaseline />
         <AppRouter />
       </ThemeProvider>

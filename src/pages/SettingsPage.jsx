@@ -1,5 +1,4 @@
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Box, Typography } from "@mui/material";
 import ToggleColorMode from "../components/ToggleColorMode";
 
 const SettingsPage = () => {
@@ -13,7 +12,6 @@ const SettingsPage = () => {
           alignItems: "center",
           gap: 2,
           flexWrap: "wrap",
-          height: "50vh",
         }}
       >
         <Typography

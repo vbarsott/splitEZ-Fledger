@@ -5,7 +5,7 @@ const BrandLogo = () => (
   <Typography
     variant="h6"
     component={Link}
-    href="/"
+    to="/"
     color="inherit"
     sx={{
       letterSpacing: ".1rem",

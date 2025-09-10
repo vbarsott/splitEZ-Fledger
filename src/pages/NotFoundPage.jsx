@@ -1,5 +1,4 @@
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Box, Typography } from "@mui/material";
 
 const NotFoundPage = () => {
   return (
@@ -13,7 +12,6 @@ const NotFoundPage = () => {
           textAlign: "center",
           gap: 4,
           flexWrap: "wrap",
-          height: "50vh",
           width: { xs: "90%", sm: "70%", md: "50%" },
           mx: "auto",
         }}
