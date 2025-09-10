@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { Tabs, Tab } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { Tabs, Tab } from "@mui/material";
 
 const NavTabs = ({ currentTab, navItems }) => {
   const theme = useTheme();

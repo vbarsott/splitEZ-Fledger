@@ -1,11 +1,12 @@
 import { useColorScheme, useTheme } from "@mui/material/styles";
-
-import Box from "@mui/material/Box";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
+import {
+  Box,
+  RadioGroup,
+  Radio,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+} from "@mui/material";
 
 const ToggleColorMode = () => {
   const theme = useTheme();

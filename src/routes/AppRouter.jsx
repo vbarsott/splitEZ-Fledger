@@ -5,21 +5,28 @@ import {
   RouterProvider,
 } from "react-router";
 import MainLayout from "../layout/MainLayout";
-import NotFoundPage from "../pages/NotFoundPage";
-import HomePage from "../pages/HomePage";
+import MainSectionLayout from "../layout/MainSectionLayout";
 import AboutPage from "../pages/AboutPage";
-import ContactPage from "../pages/ContactPage";
+import ExpensesPage from "../pages/ExpensesPage";
+import GroupsPage from "../pages/GroupsPage";
+import HomePage from "../pages/HomePage";
+import NotFoundPage from "../pages/NotFoundPage";
+import ResultPage from "../pages/ResultPage";
 import SettingsPage from "../pages/SettingsPage";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
-        <Route path="*" element={<NotFoundPage />} />
-        <Route index element={<HomePage />} />
+        <Route element={<MainSectionLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/expenses" element={<ExpensesPage />} />
+          <Route path="/result" element={<ResultPage />} />
+        </Route>
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     ),
     {
