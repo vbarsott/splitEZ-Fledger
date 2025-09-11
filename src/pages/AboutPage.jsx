@@ -1,26 +1,28 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 const AboutPage = () => {
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 2,
-          flexWrap: "wrap",
-        }}
-      >
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{ py: 2, letterSpacing: ".2rem" }}
+      <Container maxWidth="xl">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 2,
+            flexWrap: "wrap",
+          }}
         >
-          About SplitEZ
-        </Typography>
-      </Box>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{ py: 2, letterSpacing: ".2rem" }}
+          >
+            About SplitEZ
+          </Typography>
+        </Box>
+      </Container>
     </>
   );
 };

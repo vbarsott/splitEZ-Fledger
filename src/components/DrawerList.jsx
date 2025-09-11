@@ -30,11 +30,11 @@ const DrawerList = ({ navItems, onClick }) => (
             sx={{
               transition: "background-color 0.3s ease",
               "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                bgcolor: "rgba(255, 255, 255, 0.1)",
                 color: "primary.contrastText",
               },
               "&.active": {
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                bgcolor: "rgba(255, 255, 255, 0.2)",
                 fontWeight: "bold",
                 color: "primary.contrastText",
               },

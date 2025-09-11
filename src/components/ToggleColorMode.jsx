@@ -25,7 +25,7 @@ const ToggleColorMode = () => {
           alignItems: "center",
           justifyContent: "center",
           color: "inherit",
-          backgroundColor: "background.default",
+          bgcolor: "background.default",
           py: 2,
           minHeight: "56px",
         }}

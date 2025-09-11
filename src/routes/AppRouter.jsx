@@ -10,6 +10,7 @@ import AboutPage from "../pages/AboutPage";
 import ExpensesPage from "../pages/ExpensesPage";
 import GroupsPage from "../pages/GroupsPage";
 import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ResultPage from "../pages/ResultPage";
 import SettingsPage from "../pages/SettingsPage";
@@ -26,6 +27,7 @@ const AppRouter = () => {
         </Route>
         <Route path="/about" element={<AboutPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     ),
