@@ -10,9 +10,9 @@ const SectionHeader = () => {
           flexDirection: "column",
           alignItems: "center",
           gap: 3,
+          pt: 3,
         }}
       >
-        {/* Page Title */}
         <Box
           sx={{
             display: "flex",
@@ -41,7 +41,6 @@ const SectionHeader = () => {
           </Typography>
         </Box>
 
-        {/* Button Group */}
         <HomeButtonGroup />
       </Box>
     </>

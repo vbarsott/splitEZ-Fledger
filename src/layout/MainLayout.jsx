@@ -34,16 +34,14 @@ const MainLayout = () => {
 
         <Navbar navItems={navItems} />
 
-        <Box component="main" sx={{ flexGrow: 1, py: 2 }}>
-          <Container maxWidth="xl">
-            <Outlet />
-          </Container>
+        <Box component="main" sx={{ flexGrow: 1 }}>
+          <Outlet />
         </Box>
 
         <Box
           component="footer"
           sx={{
-            backgroundColor: theme.palette.background.footerBg,
+            bgcolor: theme.palette.background.footerBg,
             color: "primary.contrastText",
             pt: 1,
             pb: 3,

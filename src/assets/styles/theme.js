@@ -27,6 +27,7 @@ const theme = createTheme({
           default: "#fff",
           paper: "#fff",
           footerBg: teal[400],
+          pageBg: teal[400],
         },
         text: {
           primary: "#000",
@@ -37,7 +38,7 @@ const theme = createTheme({
         MuiAppBar: {
           styleOverrides: {
             colorPrimary: {
-              backgroundColor: teal[400],
+              bgcolor: teal[400],
             },
           },
         },
@@ -68,6 +69,7 @@ const theme = createTheme({
           default: "#000",
           paper: grey[900],
           footerBg: grey[900],
+          pageBg: grey[900],
         },
         text: {
           primary: "#fff",
@@ -78,7 +80,7 @@ const theme = createTheme({
         MuiAppBar: {
           styleOverrides: {
             colorPrimary: {
-              backgroundColor: grey[900],
+              bgcolor: grey[900],
             },
           },
         },

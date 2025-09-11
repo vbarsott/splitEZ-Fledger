@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -21,6 +22,7 @@ const Navbar = ({ window, navItems }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
   const container = window ? () => window().document.body : undefined;
+  const navigate = useNavigate();
 
   return (
     <>
@@ -57,7 +59,12 @@ const Navbar = ({ window, navItems }) => {
                   <SearchIcon />
                 </IconButton>
 
-                <IconButton size="large" color="inherit" aria-label="search">
+                <IconButton
+                  size="large"
+                  color="inherit"
+                  aria-label="search"
+                  onClick={() => navigate("/login")}
+                >
                   <AccountCircle />
                 </IconButton>
               </Box>
@@ -75,7 +82,7 @@ const Navbar = ({ window, navItems }) => {
           ModalProps={{ keepMounted: true }}
           sx={{
             "& .MuiDrawer-paper": {
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              bgcolor: "rgba(0, 0, 0, 0.7)",
               color: "primary.light",
               backdropFilter: "blur(8px)",
               boxSizing: "border-box",
