@@ -13,7 +13,7 @@ function useRouteMatch(patterns) {
 
 const navItems = [
   { label: "About", path: "/about" },
-  { label: "Settings", path: "/settings" },
+  { label: "Account", path: "/account" },
 ];
 
 const MainLayout = () => {

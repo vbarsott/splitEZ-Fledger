@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -14,6 +15,11 @@ import LoginIcon from "@mui/icons-material/Login";
 
 const LoginPage = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/account");
+  };
 
   return (
     <>
@@ -32,25 +38,22 @@ const LoginPage = () => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              gap: 2,
-              flexWrap: "wrap",
+              textAlign: "center",
             }}
           >
             <Typography
               variant="h2"
               component="h1"
-              sx={{ py: 2, letterSpacing: ".2rem" }}
+              sx={{ letterSpacing: ".2rem" }}
             >
-              Login
+              Login or Register
             </Typography>
 
             <Typography
-              variant="h5"
+              variant="h4"
               component="h2"
               sx={{
                 letterSpacing: ".2rem",
-                textAlign: "center",
-                fontWeight: "bold",
                 fontStyle: "italic",
                 display: "flex",
                 alignItems: "center",
@@ -59,7 +62,9 @@ const LoginPage = () => {
               }}
             >
               Come On In
-              <LoginIcon sx={{ fontSize: 40, color: "accent.main" }} />
+              <LoginIcon
+                sx={{ fontSize: 40, color: theme.palette.text.icon }}
+              />
             </Typography>
           </Box>
         </Container>
@@ -78,13 +83,13 @@ const LoginPage = () => {
             component="form"
             elevation={3}
             sx={{
-              maxWidth: 400,
-              mx: "auto",
-              mt: 8,
-              p: 4,
               display: "flex",
               flexDirection: "column",
               gap: 2,
+              maxWidth: 500,
+              width: "100%",
+              m: 4,
+              p: 4,
             }}
           >
             <Typography
@@ -92,24 +97,16 @@ const LoginPage = () => {
               sx={{
                 letterSpacing: ".1rem",
                 textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Log Into Your Account
             </Typography>
 
-            <TextField
-              label="Username"
-              variant="outlined"
-              color="accent"
-              fullWidth
-              required
-            />
+            <TextField label="Username" variant="outlined" fullWidth required />
             <TextField
               label="Password"
               type="password"
               variant="outlined"
-              color="accent"
               fullWidth
               required
             />
@@ -121,15 +118,15 @@ const LoginPage = () => {
             >
               <FormControlLabel
                 value="remember-me"
-                control={<Checkbox id="remember-me" color="accent" />}
+                control={<Checkbox id="remember-me" />}
                 label="Remember Me"
               />
-              <Link href="#" underline="hover" color="accent">
+              <Link href="#" underline="hover">
                 Forgot Password?
               </Link>
             </Box>
 
-            <Button variant="contained" color="accent" fullWidth>
+            <Button onClick={handleLogin} variant="contained" fullWidth>
               Log In
             </Button>
           </Paper>

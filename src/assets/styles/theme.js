@@ -32,6 +32,7 @@ const theme = createTheme({
         text: {
           primary: "#000",
           secondary: grey[500],
+          icon: yellow[800],
         },
       },
       components: {
@@ -74,6 +75,7 @@ const theme = createTheme({
         text: {
           primary: "#fff",
           secondary: grey[500],
+          icon: teal[400],
         },
       },
       components: {

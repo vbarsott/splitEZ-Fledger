@@ -13,7 +13,7 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ResultPage from "../pages/ResultPage";
-import SettingsPage from "../pages/SettingsPage";
+import AccountPage from "../pages/AccountPage";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -26,7 +26,7 @@ const AppRouter = () => {
           <Route path="/result" element={<ResultPage />} />
         </Route>
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
