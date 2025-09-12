@@ -1,4 +1,4 @@
-import { useColorScheme, useTheme } from "@mui/material/styles";
+import { useColorScheme } from "@mui/material/styles";
 import {
   Box,
   RadioGroup,
@@ -6,11 +6,10 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  Typography,
 } from "@mui/material";
 
 const ToggleColorMode = () => {
-  const theme = useTheme();
-
   const { mode, setMode } = useColorScheme();
   if (!mode) {
     return null;
@@ -25,20 +24,22 @@ const ToggleColorMode = () => {
           alignItems: "center",
           justifyContent: "center",
           color: "inherit",
-          bgcolor: "background.default",
-          py: 2,
           minHeight: "56px",
         }}
       >
         <FormControl>
-          <FormLabel
-            id="theme-label"
-            color="text.primary"
-            sx={{
-              color: theme.palette.text.primary,
-            }}
-          >
-            Select a Theme
+          <FormLabel id="theme-label" component="legend" color="text.primary">
+            <Typography
+              variant="h5"
+              align="center"
+              sx={{
+                letterSpacing: ".1rem",
+                textAlign: "center",
+                color: "text.primary",
+              }}
+            >
+              Chose your theme color mode
+            </Typography>
           </FormLabel>
 
           <RadioGroup
@@ -47,6 +48,12 @@ const ToggleColorMode = () => {
             row
             value={mode}
             onChange={(event) => setMode(event.target.value)}
+            sx={{
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <FormControlLabel
               value="system"
