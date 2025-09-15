@@ -51,7 +51,6 @@ const HomePage = () => {
               component="h3"
               color="accent"
               sx={{
-                letterSpacing: ".2rem",
                 fontSize: 24,
                 fontWeight: "bold",
               }}

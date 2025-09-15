@@ -33,7 +33,6 @@ const ToggleColorMode = () => {
               variant="h5"
               align="center"
               sx={{
-                letterSpacing: ".1rem",
                 textAlign: "center",
                 color: "text.primary",
               }}

@@ -8,8 +8,8 @@ const BrandLogo = () => (
     to="/"
     color="inherit"
     sx={{
-      letterSpacing: ".1rem",
       textDecoration: "none",
+      fontSize: 24,
       fontFamily: "Ranchers, cursive",
     }}
   >

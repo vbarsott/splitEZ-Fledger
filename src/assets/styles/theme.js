@@ -92,13 +92,18 @@ const theme = createTheme({
 
   typography: {
     fontFamily: "Roboto, sans-serif",
-    h1: { fontFamily: "Ranchers, cursive" },
-    h2: { fontFamily: "Ranchers, cursive" },
-    h3: { fontFamily: "Ranchers, cursive" },
-    h4: { fontFamily: "Ranchers, cursive" },
-    h5: { fontFamily: "Ranchers, cursive" },
-    h6: { fontFamily: "Ranchers, cursive" },
-    button: { fontFamily: "Ranchers, cursive" },
+    h1: { fontFamily: "Ranchers, cursive", letterSpacing: ".1rem" },
+    h2: { fontFamily: "Ranchers, cursive", letterSpacing: ".1rem" },
+    h3: { fontFamily: "Ranchers, cursive", letterSpacing: ".1rem" },
+    h4: { fontFamily: "Ranchers, cursive", letterSpacing: ".1rem" },
+    h5: { fontFamily: "Ranchers, cursive", letterSpacing: ".1rem" },
+    h6: { fontFamily: "Ranchers, cursive", letterSpacing: ".1rem" },
+    button: {
+      fontFamily: "Ranchers, cursive",
+      fontSize: "20px",
+      letterSpacing: ".1rem",
+      textTransform: "none",
+    },
   },
 
   components: {

@@ -14,11 +14,7 @@ const AboutPage = () => {
             flexWrap: "wrap",
           }}
         >
-          <Typography
-            variant="h3"
-            component="h1"
-            sx={{ py: 2, letterSpacing: ".2rem" }}
-          >
+          <Typography variant="h3" component="h1" sx={{ py: 2 }}>
             About SplitEZ
           </Typography>
         </Box>
