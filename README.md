@@ -8,6 +8,4 @@ This application is being developed to help splitting common expenses of groups 
 
 https://vbarsott.github.io/splitEZ-Fledger/
 
-Replaced SettingsPage by AccountPage
-Included SettingsPage content inside AccountPage
 
