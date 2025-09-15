@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Fragment } from "react";
+import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -67,7 +66,7 @@ const GroupsPage = () => {
             }}
           >
             <Typography variant="h5" sx={{ textAlign: "center" }}>
-              Step 1: Create a Group
+              Step 1: Create a group
             </Typography>
 
             <Box
