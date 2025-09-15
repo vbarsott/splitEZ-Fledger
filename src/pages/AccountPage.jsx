@@ -37,11 +37,11 @@ const AccountPage = () => {
         sx={{
           bgcolor: theme.palette.background.pageBg,
           color: "primary.contrastText",
-          pt: 3,
-          pb: 5,
+          pt: 4,
+          pb: 4,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="sm">
           <Box
             sx={{
               display: "flex",
@@ -54,7 +54,6 @@ const AccountPage = () => {
             <Typography
               variant="h2"
               component="h2"
-              sx={{ letterSpacing: ".2rem" }}
             >
               Hello User
             </Typography>
@@ -63,7 +62,6 @@ const AccountPage = () => {
               variant="h4"
               component="h3"
               sx={{
-                letterSpacing: ".2rem",
                 fontStyle: "italic",
                 display: "flex",
                 alignItems: "center",
@@ -83,110 +81,131 @@ const AccountPage = () => {
         </Container>
       </Box>
 
-      <Container maxWidth="xl">
+      <Container maxWidth="sm">
         <Typography
           variant="h4"
           component="h2"
           sx={{
-            letterSpacing: ".2rem",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            pt: 3,
+            pt: 4,
           }}
         >
           Account Settings
         </Typography>
+
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
+            flexDirection: "column",
             alignItems: "center",
             flexWrap: "wrap",
-            gap: 2,
-            py: 3,
+            gap: 4,
             textAlign: "center",
           }}
         >
           <Paper
             component="form"
             elevation={3}
-            sx={{ p: 4, maxWidth: 500, width: "100%" }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              maxWidth: 500,
+              width: "100%",
+              mt: 4,
+              p: 4,
+            }}
           >
             <Typography
               variant="h5"
               sx={{
-                letterSpacing: ".1rem",
                 textAlign: "center",
               }}
             >
               Update Your Details
             </Typography>
 
-            <Box onSubmit={handleSubmit}>
+            <Box
+              onSubmit={handleSubmit}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
               <TextField
-                fullWidth
+                type="email"
                 label="Email"
                 name="email"
-                type="email"
-                margin="normal"
+                autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
+                variant="outlined"
+                fullWidth
                 required
-                autoComplete="email"
               />
               <TextField
-                fullWidth
+                type="text"
                 label="First Name"
                 name="firstName"
-                margin="normal"
+                autoComplete="given-name"
                 value={formData.firstName}
                 onChange={handleChange}
+                variant="outlined"
+                fullWidth
                 required
-                autoComplete="given-name"
               />
               <TextField
-                fullWidth
+                type="text"
                 label="Last Name"
                 name="lastName"
-                margin="normal"
+                autoComplete="family-name"
                 value={formData.lastName}
                 onChange={handleChange}
+                variant="outlined"
+                fullWidth
                 required
-                autoComplete="family-name"
               />
               <TextField
-                fullWidth
+                type="text"
                 label="Display Name"
                 name="displayName"
-                margin="normal"
                 value={formData.displayName}
                 onChange={handleChange}
+                variant="outlined"
+                fullWidth
               />
               <TextField
-                fullWidth
+                type="password"
                 label="Enter Password"
                 name="password"
-                type="password"
-                margin="normal"
+                autoComplete="new-password"
                 value={formData.password}
                 onChange={handleChange}
-                required
-                autoComplete="new-password"
-              />
-              <Button
-                type="submit"
-                variant="contained"
+                variant="outlined"
                 fullWidth
-                sx={{ mt: 2 }}
-              >
+                required
+              />
+
+              <Button type="submit" variant="contained" fullWidth>
                 Update Details
               </Button>
             </Box>
           </Paper>
 
-          <Paper elevation={3} sx={{ p: 4, maxWidth: 500, width: "100%" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              display: "flex",
+              maxWidth: 500,
+              width: "100%",
+              mb: 4,
+              p: 4,
+            }}
+          >
             <ToggleColorMode />
           </Paper>
         </Box>

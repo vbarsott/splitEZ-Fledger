@@ -17,7 +17,8 @@ const LoginPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault(); // Prevent default form behavior
     navigate("/account");
   };
 
@@ -31,7 +32,7 @@ const LoginPage = () => {
           pb: 5,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="sm">
           <Box
             sx={{
               display: "flex",
@@ -44,7 +45,6 @@ const LoginPage = () => {
             <Typography
               variant="h2"
               component="h1"
-              sx={{ letterSpacing: ".2rem" }}
             >
               Login or Register
             </Typography>
@@ -53,7 +53,6 @@ const LoginPage = () => {
               variant="h4"
               component="h2"
               sx={{
-                letterSpacing: ".2rem",
                 fontStyle: "italic",
                 display: "flex",
                 alignItems: "center",
@@ -70,17 +69,21 @@ const LoginPage = () => {
         </Container>
       </Box>
 
-      <Container maxWidth="xl">
+      <Container maxWidth="sm">
         <Box
           sx={{
             display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
             flexWrap: "wrap",
             gap: 2,
-            justifyContent: "center",
+            textAlign: "center",
           }}
         >
           <Paper
             component="form"
+            onSubmit={handleLogin}
             elevation={3}
             sx={{
               display: "flex",
@@ -88,47 +91,70 @@ const LoginPage = () => {
               gap: 2,
               maxWidth: 500,
               width: "100%",
-              m: 4,
+              my: 4,
               p: 4,
             }}
           >
             <Typography
               variant="h5"
               sx={{
-                letterSpacing: ".1rem",
                 textAlign: "center",
               }}
             >
               Log Into Your Account
             </Typography>
 
-            <TextField label="Username" variant="outlined" fullWidth required />
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              required
-            />
-
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
             >
-              <FormControlLabel
-                value="remember-me"
-                control={<Checkbox id="remember-me" />}
-                label="Remember Me"
+              <TextField
+                type="text"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                variant="outlined"
+                fullWidth
+                required
               />
-              <Link href="#" underline="hover">
-                Forgot Password?
-              </Link>
-            </Box>
 
-            <Button onClick={handleLogin} variant="contained" fullWidth>
-              Log In
-            </Button>
+              <TextField
+                type="password"
+                label="Password"
+                name="password"
+                autoComplete="current-password"
+                variant="outlined"
+                fullWidth
+                required
+              />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 2,
+                  alignItems: "center",
+                }}
+              >
+                <FormControlLabel
+                  value="remember-me"
+                  control={
+                    <Checkbox id="remember-me" aria-label="Remember Me" />
+                  }
+                  label="Remember Me"
+                />
+                <Link href="/splitEZ-Fledger/account" underline="hover">
+                  Forgot Password?
+                </Link>
+              </Box>
+
+              <Button type="submit" variant="contained" fullWidth>
+                Log In
+              </Button>
+            </Box>
           </Paper>
         </Box>
       </Container>

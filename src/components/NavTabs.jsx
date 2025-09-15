@@ -23,7 +23,6 @@ const NavTabs = ({ currentTab, navItems }) => {
             to={item.path}
             component={NavLink}
             style={({ isActive }) => ({
-              letterSpacing: ".1rem",
               color: isActive
                 ? theme.palette.primary.light
                 : theme.palette.primary.contrastText,

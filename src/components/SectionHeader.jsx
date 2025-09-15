@@ -24,7 +24,6 @@ const SectionHeader = () => {
           <Typography
             variant="h3"
             component="h1"
-            sx={{ letterSpacing: ".2rem" }}
           >
             SplitEZ
           </Typography>

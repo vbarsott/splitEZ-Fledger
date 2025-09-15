@@ -22,7 +22,6 @@ const Footer = ({ currentTab, navItems }) => {
           variant="h6"
           color="inherit"
           sx={{
-            letterSpacing: ".1rem",
             textDecoration: "none",
             fontFamily: "Ranchers, cursive",
           }}
