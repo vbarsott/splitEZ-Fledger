@@ -1,7 +1,6 @@
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-
 import {
   Box,
   Button,
@@ -39,6 +38,7 @@ const ExpensesPage = () => {
     event.preventDefault();
     navigate("/result");
   };
+
   return (
     <>
       <Container maxWidth="sm">
@@ -179,7 +179,7 @@ const ExpensesPage = () => {
             <Button
               variant="contained"
               fullWidth
-              onClick={() => navigate("/expenses")}
+              onClick={() => navigate("/result")}
             >
               Check the Result
               <KeyboardDoubleArrowRightIcon sx={{ ml: 1, fontSize: 30 }} />
