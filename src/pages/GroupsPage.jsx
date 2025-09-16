@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -14,28 +14,50 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
-const groups = [
-  { name: "Grupo 1", people: 4 },
-  { name: "Grupo 2", people: 5 },
-  { name: "Grupo 3", people: 9 },
-];
-
-const GroupsPage = () => {
+const GroupsPage = ({ addGroupSubmit, deleteGroup, updateGroup }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    groupName: "",
-    numberOfPeople: "",
-  });
+  const [groupName, setGroupName] = useState("");
+  const [numberOfPeople, setNumberOfPeople] = useState("");
+  const [groups, setGroups] = useState([]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [editingGroupId, setEditingGroupId] = useState(null);
+  const [editedGroupName, setEditedGroupName] = useState("");
+  const [editedNumberOfPeople, setEditedNumberOfPeople] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    navigate("/expenses");
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const res = await fetch("/api/groups");
+        const data = await res.json();
+        setGroups(data);
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
+    };
+    fetchGroups();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const groupData = {
+      groupName,
+      numberOfPeople: Number(numberOfPeople),
+    };
+
+    try {
+      const newGroup = await addGroupSubmit(groupData);
+      setGroups((prevGroups) => [...prevGroups, newGroup]);
+      setGroupName("");
+      setNumberOfPeople("");
+    } catch (error) {
+      console.error("Error adding group:", error);
+    } finally {
+      setGroupName("");
+      setNumberOfPeople("");
+    }
   };
 
   return (
@@ -81,8 +103,8 @@ const GroupsPage = () => {
                 label="Group name"
                 name="groupName"
                 autoComplete="off"
-                value={formData.groupName}
-                onChange={handleChange}
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
                 variant="outlined"
                 fullWidth
                 required
@@ -92,8 +114,8 @@ const GroupsPage = () => {
                 label="Number of people"
                 name="numberOfPeople"
                 autoComplete="number-of-people"
-                value={formData.email}
-                onChange={handleChange}
+                value={numberOfPeople}
+                onChange={(e) => setNumberOfPeople(e.target.value)}
                 variant="outlined"
                 fullWidth
                 required
@@ -126,7 +148,7 @@ const GroupsPage = () => {
             </Typography>
 
             {groups.map((group, index) => (
-              <Fragment key={group.name}>
+              <Fragment key={group.id}>
                 <Box
                   sx={{
                     display: "flex",
@@ -136,15 +158,56 @@ const GroupsPage = () => {
                     py: 1,
                   }}
                 >
-                  <Typography
-                    sx={{
-                      textAlign: "left",
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    {group.name} ({group.people} people)
-                  </Typography>
+                  {editingGroupId === group.id ? (
+                    <>
+                      <TextField
+                        value={editedGroupName}
+                        onChange={(e) => setEditedGroupName(e.target.value)}
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <TextField
+                        type="number"
+                        value={editedNumberOfPeople}
+                        onChange={(e) =>
+                          setEditedNumberOfPeople(e.target.value)
+                        }
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <Button
+                        variant="contained"
+                        onClick={async () => {
+                          const updatedGroup = {
+                            groupName: editedGroupName,
+                            numberOfPeople: editedNumberOfPeople,
+                          };
+                          const result = await updateGroup(
+                            group.id,
+                            updatedGroup
+                          );
+                          setGroups((prevGroups) =>
+                            prevGroups.map((g) =>
+                              g.id === group.id ? result : g
+                            )
+                          );
+                          setEditingGroupId(null);
+                        }}
+                      >
+                        Save
+                      </Button>
+                    </>
+                  ) : (
+                    <Typography
+                      sx={{
+                        textAlign: "left",
+                        fontWeight: "bold",
+                        fontSize: "1.2rem",
+                      }}
+                    >
+                      {group.groupName} ({group.numberOfPeople} people)
+                    </Typography>
+                  )}
 
                   <Box
                     sx={{
@@ -155,9 +218,20 @@ const GroupsPage = () => {
                     }}
                   >
                     <EditIcon
+                      onClick={() => {
+                        setEditingGroupId(group.id);
+                        setEditedGroupName(group.groupName);
+                        setEditedNumberOfPeople(group.numberOfPeople);
+                      }}
                       sx={{ fontSize: 30, color: theme.palette.text.icon }}
                     />
                     <DeleteForeverIcon
+                      onClick={() => {
+                        deleteGroup(group.id);
+                        setGroups((prevGroups) =>
+                          prevGroups.filter((g) => g.id !== group.id)
+                        );
+                      }}
                       sx={{ fontSize: 30, color: theme.palette.text.icon }}
                     />
                   </Box>

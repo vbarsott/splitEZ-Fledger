@@ -133,7 +133,7 @@ const ExpensesPage = () => {
             </Typography>
 
             {expenses.map((expense, index) => (
-              <Fragment key={expense.index}>
+              <Fragment key={expense.who}>
                 <Box
                   sx={{
                     display: "flex",

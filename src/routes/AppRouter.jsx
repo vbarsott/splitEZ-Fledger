@@ -16,12 +16,52 @@ import ResultPage from "../pages/ResultPage";
 import AccountPage from "../pages/AccountPage";
 
 const AppRouter = () => {
+  // Add a new group
+  const addGroup = async (groupData) => {
+    const res = await fetch("/api/groups", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(groupData),
+    });
+    const data = await res.json();
+    return data;
+  };
+
+  // Delete group
+  const deleteGroup = async (groupId) => {
+    const res = await fetch(`/api/groups/${groupId}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    return data;
+  };
+
+  // Update group
+  const updateGroup = async (groupId, updatedData) => {
+    const res = await fetch(`/api/groups/${groupId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await res.json();
+    return data;
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
         <Route element={<MainSectionLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/groups" element={<GroupsPage />} />
+          <Route
+            path="/groups"
+            element={
+              <GroupsPage addGroupSubmit={addGroup} deleteGroup={deleteGroup} updateGroup={updateGroup} />
+            }
+          />
           <Route path="/expenses" element={<ExpensesPage />} />
           <Route path="/result" element={<ResultPage />} />
         </Route>
