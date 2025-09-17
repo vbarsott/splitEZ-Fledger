@@ -195,9 +195,9 @@ const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
                   {editingExpenseId === expense.id ? (
                     <>
                       <FormControl fullWidth required>
-                        <InputLabel id="whoPaid-label">Who</InputLabel>
+                        <InputLabel id="whoPaid-label-edit">Who</InputLabel>
                         <Select
-                          labelId="whoPaid-label"
+                          labelId="whoPaid-label-edit"
                           value={editedWhoPaid}
                           onChange={(e) => setEditedWhoPaid(e.target.value)}
                           label="Who"
