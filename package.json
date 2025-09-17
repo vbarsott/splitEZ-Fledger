@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "server": "json-server --watch data/groups.json --port 8080",
+    "server": "json-server --watch data/db.json --port 8080",
     "start": "concurrently \"npm run server\" \"npm run dev\""
   },
   "dependencies": {

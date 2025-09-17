@@ -51,6 +51,41 @@ const AppRouter = () => {
     return data;
   };
 
+  // Add a new expense
+  const addExpense = async (expenseData) => {
+    const res = await fetch("/api/expenses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(expenseData),
+    });
+    const data = await res.json();
+    return data;
+  };
+
+  // Delete expense
+  const deleteExpense = async (expenseId) => {
+    const res = await fetch(`/api/expenses/${expenseId}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    return data;
+  };
+
+  // Update expense
+  const updateExpense = async (expenseId, updatedData) => {
+    const res = await fetch(`/api/expenses/${expenseId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await res.json();
+    return data;
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
@@ -59,10 +94,23 @@ const AppRouter = () => {
           <Route
             path="/groups"
             element={
-              <GroupsPage addGroupSubmit={addGroup} deleteGroup={deleteGroup} updateGroup={updateGroup} />
+              <GroupsPage
+                addGroupSubmit={addGroup}
+                deleteGroup={deleteGroup}
+                updateGroup={updateGroup}
+              />
             }
           />
-          <Route path="/expenses" element={<ExpensesPage />} />
+          <Route
+            path="/expenses"
+            element={
+              <ExpensesPage
+                addExpenseSubmit={addExpense}
+                deleteExpense={deleteExpense}
+                updateExpense={updateExpense}
+              />
+            }
+          />
           <Route path="/result" element={<ResultPage />} />
         </Route>
         <Route path="/about" element={<AboutPage />} />

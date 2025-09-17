@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -9,34 +9,79 @@ import {
   Paper,
   TextField,
   Typography,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
-const expenses = [
-  { who: "Name 1", what: "onions", amount: 4.5 },
-  { who: "Name 2", what: "bread", amount: 2.5 },
-  { who: "Name 3", what: "meat", amount: 32.6 },
-];
-
-const ExpensesPage = () => {
+const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    whoPaid: "",
-    whatPaidFor: "",
-    amountPaid: "",
-  });
+  const [amountPaid, setAmountPaid] = useState("");
+  const [whoPaid, setWhoPaid] = useState("");
+  const [paidWhat, setPaidWhat] = useState("");
+  const [expenses, setExpenses] = useState([]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [editingExpenseId, setEditingExpenseId] = useState(null);
+  const [editedWhoPaid, setEditedWhoPaid] = useState("");
+  const [editedPaidWhat, setEditedPaidWhat] = useState("");
+  const [editedAmountPaid, setEditedAmountPaid] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    navigate("/result");
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const res = await fetch("/api/expenses");
+        const data = await res.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error("Error fetching expenses:", error);
+      }
+    };
+    fetchExpenses();
+  }, []);
+
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const res = await fetch("/api/groups");
+        const data = await res.json();
+        setGroups(data);
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
+    };
+    fetchGroups();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const expenseData = {
+      amountPaid: Number(amountPaid),
+      whoPaid,
+      paidWhat,
+    };
+
+    try {
+      const newExpense = await addExpenseSubmit(expenseData);
+      setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+      whoPaid("");
+      paidWhat("");
+      amountPaid("");
+    } catch (error) {
+      console.error("Error adding expense:", error);
+    } finally {
+      setWhoPaid("");
+      setPaidWhat("");
+      setAmountPaid("");
+    }
   };
 
   return (
@@ -70,25 +115,29 @@ const ExpensesPage = () => {
               Step 2: Add the expenses
             </Typography>
 
-            <TextField
-              type="text"
-              label="Who"
-              name="whoPaid"
-              autoComplete="off"
-              value={formData.whoPaid}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              required
-            />
+            <FormControl fullWidth required>
+              <InputLabel id="whoPaid-label">Who</InputLabel>
+              <Select
+                labelId="whoPaid-label"
+                value={whoPaid}
+                onChange={(e) => setWhoPaid(e.target.value)}
+                label="Who"
+              >
+                {groups.map((group) => (
+                  <MenuItem key={group.id} value={group.groupName}>
+                    {group.groupName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             <TextField
               type="text"
               label="What"
               name="whatPaidFor"
               autoComplete="off"
-              value={formData.whatPaidFor}
-              onChange={handleChange}
+              value={paidWhat}
+              onChange={(e) => setPaidWhat(e.target.value)}
               variant="outlined"
               fullWidth
               required
@@ -100,8 +149,8 @@ const ExpensesPage = () => {
               name="amountPaid"
               placeholder="CA$"
               autoComplete="off"
-              value={formData.amountPaid}
-              onChange={handleChange}
+              value={amountPaid}
+              onChange={(e) => setAmountPaid(e.target.value)}
               variant="outlined"
               fullWidth
               required
@@ -133,7 +182,7 @@ const ExpensesPage = () => {
             </Typography>
 
             {expenses.map((expense, index) => (
-              <Fragment key={expense.who}>
+              <Fragment key={expense.id}>
                 <Box
                   sx={{
                     display: "flex",
@@ -143,15 +192,72 @@ const ExpensesPage = () => {
                     py: 1,
                   }}
                 >
-                  <Typography
-                    sx={{
-                      textAlign: "left",
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    {expense.who} paid {expense.amount} CA$ for {expense.what}
-                  </Typography>
+                  {editingExpenseId === expense.id ? (
+                    <>
+                      <FormControl fullWidth required>
+                        <InputLabel id="whoPaid-label">Who</InputLabel>
+                        <Select
+                          labelId="whoPaid-label"
+                          value={editedWhoPaid}
+                          onChange={(e) => setEditedWhoPaid(e.target.value)}
+                          label="Who"
+                        >
+                          {groups.map((group) => (
+                            <MenuItem key={group.id} value={group.groupName}>
+                              {group.groupName}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <TextField
+                        value={editedPaidWhat}
+                        onChange={(e) => setEditedPaidWhat(e.target.value)}
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <TextField
+                        type="number"
+                        value={editedAmountPaid}
+                        onChange={(e) => setEditedAmountPaid(e.target.value)}
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <Button
+                        variant="contained"
+                        onClick={async () => {
+                          const updatedExpense = {
+                            whoPaid: editedWhoPaid,
+                            paidWhat: editedPaidWhat,
+                            amountPaid: editedAmountPaid,
+                          };
+                          const result = await updateExpense(
+                            expense.id,
+                            updatedExpense
+                          );
+                          setExpenses((prevExpenses) =>
+                            prevExpenses.map((e) =>
+                              e.id === expense.id ? result : e
+                            )
+                          );
+                          setEditingExpenseId(null);
+                        }}
+                      >
+                        Save
+                      </Button>
+                    </>
+                  ) : (
+                    <Typography
+                      sx={{
+                        textAlign: "left",
+                        fontWeight: "bold",
+                        fontSize: "1.2rem",
+                      }}
+                    >
+                      {expense.whoPaid} paid CA${expense.amountPaid} for{" "}
+                      {expense.paidWhat}
+                    </Typography>
+                  )}
 
                   <Box
                     sx={{
@@ -162,9 +268,21 @@ const ExpensesPage = () => {
                     }}
                   >
                     <EditIcon
+                      onClick={() => {
+                        setEditingExpenseId(expense.id);
+                        setEditedWhoPaid(expense.whoPaid);
+                        setEditedPaidWhat(expense.paidWhat);
+                        setEditedAmountPaid(expense.amountPaid);
+                      }}
                       sx={{ fontSize: 30, color: theme.palette.text.icon }}
                     />
                     <DeleteForeverIcon
+                      onClick={() => {
+                        deleteExpense(expense.id);
+                        setExpenses((prevExpenses) =>
+                          prevExpenses.filter((e) => e.id !== expense.id)
+                        );
+                      }}
                       sx={{ fontSize: 30, color: theme.palette.text.icon }}
                     />
                   </Box>
