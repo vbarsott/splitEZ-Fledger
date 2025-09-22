@@ -1,117 +1,31 @@
+import { lazy } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from "react-router";
+} from "react-router-dom";
 import { AppDataProvider } from "../context/AppDataProvider.jsx";
 import MainLayout from "../layout/MainLayout";
 import MainSectionLayout from "../layout/MainSectionLayout";
-import AboutPage from "../pages/AboutPage";
-import ExpensesPage from "../pages/ExpensesPage";
-import GroupsPage from "../pages/GroupsPage";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import NotFoundPage from "../pages/NotFoundPage";
-import ResultPage from "../pages/ResultPage";
-import AccountPage from "../pages/AccountPage";
+
+const AboutPage = lazy(() => import("../pages/AboutPage"));
+const ExpensesPage = lazy(() => import("../pages/ExpensesPage"));
+const GroupsPage = lazy(() => import("../pages/GroupsPage"));
+const HomePage = lazy(() => import("../pages/HomePage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const NotFoundPage = lazy(() => import("../pages/NotFoundPage"));
+const ResultPage = lazy(() => import("../pages/ResultPage"));
+const AccountPage = lazy(() => import("../pages/AccountPage"));
 
 const AppRouter = () => {
-  // Add a new group
-  const addGroup = async (groupData) => {
-    const res = await fetch("/api/groups", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(groupData),
-    });
-    const data = await res.json();
-    return data;
-  };
-
-  // Delete group
-  const deleteGroup = async (groupId) => {
-    const res = await fetch(`/api/groups/${groupId}`, {
-      method: "DELETE",
-    });
-    const data = await res.json();
-    return data;
-  };
-
-  // Update group
-  const updateGroup = async (groupId, updatedData) => {
-    const res = await fetch(`/api/groups/${groupId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
-    const data = await res.json();
-    return data;
-  };
-
-  // Add a new expense
-  const addExpense = async (expenseData) => {
-    const res = await fetch("/api/expenses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(expenseData),
-    });
-    const data = await res.json();
-    return data;
-  };
-
-  // Delete expense
-  const deleteExpense = async (expenseId) => {
-    const res = await fetch(`/api/expenses/${expenseId}`, {
-      method: "DELETE",
-    });
-    const data = await res.json();
-    return data;
-  };
-
-  // Update expense
-  const updateExpense = async (expenseId, updatedData) => {
-    const res = await fetch(`/api/expenses/${expenseId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
-    const data = await res.json();
-    return data;
-  };
-
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
         <Route element={<MainSectionLayout />}>
           <Route index element={<HomePage />} />
-          <Route
-            path="/groups"
-            element={
-              <GroupsPage
-                addGroupSubmit={addGroup}
-                deleteGroup={deleteGroup}
-                updateGroup={updateGroup}
-              />
-            }
-          />
-          <Route
-            path="/expenses"
-            element={
-              <ExpensesPage
-                addExpenseSubmit={addExpense}
-                deleteExpense={deleteExpense}
-                updateExpense={updateExpense}
-              />
-            }
-          />
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/expenses" element={<ExpensesPage />} />
           <Route path="/result" element={<ResultPage />} />
         </Route>
         <Route path="/about" element={<AboutPage />} />

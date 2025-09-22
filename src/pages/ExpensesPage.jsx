@@ -19,8 +19,15 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
-const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
-  const { groups, expenses, setExpenses } = useContext(AppDataContext);
+const ExpensesPage = () => {
+  const {
+    groups,
+    expenses,
+    setExpenses,
+    addExpense,
+    deleteExpense,
+    updateExpense,
+  } = useContext(AppDataContext);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -44,11 +51,11 @@ const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
     };
 
     try {
-      const newExpense = await addExpenseSubmit(expenseData);
+      const newExpense = await addExpense(expenseData);
       setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
-      whoPaid("");
-      paidWhat("");
-      amountPaid("");
+      setWhoPaid("");
+      setPaidWhat("");
+      setAmountPaid("");
     } catch (error) {
       console.error("Error adding expense:", error);
     } finally {
@@ -93,6 +100,9 @@ const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
               <InputLabel id="whoPaid-label">Who</InputLabel>
               <Select
                 labelId="whoPaid-label"
+                aria-labelledby="whoPaid-label"
+                id="whoPaid"
+                name="whoPaid"
                 value={whoPaid}
                 onChange={(e) => setWhoPaid(e.target.value)}
                 label="Who"
@@ -106,9 +116,10 @@ const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
             </FormControl>
 
             <TextField
+              id="paidWhat"
+              name="paidWhat"
               type="text"
               label="What"
-              name="whatPaidFor"
               autoComplete="off"
               value={paidWhat}
               onChange={(e) => setPaidWhat(e.target.value)}
@@ -118,9 +129,10 @@ const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
             />
 
             <TextField
+              id="amountPaid"
+              name="amountPaid"
               type="text"
               label="How Much CA$"
-              name="amountPaid"
               placeholder="CA$"
               autoComplete="off"
               value={amountPaid}
@@ -172,6 +184,9 @@ const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
                         <InputLabel id="whoPaid-label-edit">Who</InputLabel>
                         <Select
                           labelId="whoPaid-label-edit"
+                          aria-labelledby="whoPaid-label-edit"
+                          id="editedWhoPaid"
+                          name="editedWhoPaid"
                           value={editedWhoPaid}
                           onChange={(e) => setEditedWhoPaid(e.target.value)}
                           label="Who"

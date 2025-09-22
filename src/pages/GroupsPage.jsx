@@ -15,8 +15,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
-const GroupsPage = ({ addGroupSubmit, deleteGroup, updateGroup }) => {
-  const { groups, setGroups } = useContext(AppDataContext);
+const GroupsPage = () => {
+  const { groups, setGroups, addGroup, deleteGroup, updateGroup } =
+    useContext(AppDataContext);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const GroupsPage = ({ addGroupSubmit, deleteGroup, updateGroup }) => {
     };
 
     try {
-      const newGroup = await addGroupSubmit(groupData);
+      const newGroup = await addGroup(groupData);
       setGroups((prevGroups) => [...prevGroups, newGroup]);
       setGroupName("");
       setNumberOfPeople("");

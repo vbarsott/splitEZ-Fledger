@@ -11,7 +11,7 @@ const MainSectionLayout = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 3,
+            gap: 4,
           }}
         >
           <SectionHeader />

@@ -27,6 +27,7 @@ const HomePage = () => {
           flexWrap: "wrap",
           gap: 2,
           justifyContent: "center",
+          mb: 4,
         }}
       >
         {descriptionItems.map((item) => (
