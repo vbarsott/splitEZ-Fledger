@@ -4,6 +4,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router";
+import { AppDataProvider } from "../context/AppDataProvider.jsx";
 import MainLayout from "../layout/MainLayout";
 import MainSectionLayout from "../layout/MainSectionLayout";
 import AboutPage from "../pages/AboutPage";
@@ -124,7 +125,11 @@ const AppRouter = () => {
     }
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <AppDataProvider>
+      <RouterProvider router={router} />
+    </AppDataProvider>
+  );
 };
 
 export default AppRouter;

@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -14,51 +14,25 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { AppDataContext } from "../context/AppDataContext.jsx";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 const ExpensesPage = ({ addExpenseSubmit, deleteExpense, updateExpense }) => {
+  const { groups, expenses, setExpenses } = useContext(AppDataContext);
+
   const theme = useTheme();
   const navigate = useNavigate();
 
   const [amountPaid, setAmountPaid] = useState("");
   const [whoPaid, setWhoPaid] = useState("");
   const [paidWhat, setPaidWhat] = useState("");
-  const [expenses, setExpenses] = useState([]);
 
   const [editingExpenseId, setEditingExpenseId] = useState(null);
   const [editedWhoPaid, setEditedWhoPaid] = useState("");
   const [editedPaidWhat, setEditedPaidWhat] = useState("");
   const [editedAmountPaid, setEditedAmountPaid] = useState("");
-
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const res = await fetch("/api/expenses");
-        const data = await res.json();
-        setExpenses(data);
-      } catch (error) {
-        console.error("Error fetching expenses:", error);
-      }
-    };
-    fetchExpenses();
-  }, []);
-
-  const [groups, setGroups] = useState([]);
-
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const res = await fetch("/api/groups");
-        const data = await res.json();
-        setGroups(data);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
-      }
-    };
-    fetchGroups();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

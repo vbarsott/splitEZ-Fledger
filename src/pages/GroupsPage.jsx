@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useContext, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -10,34 +10,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { AppDataContext } from "../context/AppDataContext.jsx";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 const GroupsPage = ({ addGroupSubmit, deleteGroup, updateGroup }) => {
+  const { groups, setGroups } = useContext(AppDataContext);
+
   const theme = useTheme();
   const navigate = useNavigate();
 
   const [groupName, setGroupName] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState("");
-  const [groups, setGroups] = useState([]);
 
   const [editingGroupId, setEditingGroupId] = useState(null);
   const [editedGroupName, setEditedGroupName] = useState("");
   const [editedNumberOfPeople, setEditedNumberOfPeople] = useState("");
-
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const res = await fetch("/api/groups");
-        const data = await res.json();
-        setGroups(data);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
-      }
-    };
-    fetchGroups();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
