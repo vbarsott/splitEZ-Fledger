@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import theme from "./assets/styles/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -12,7 +13,9 @@ function App() {
       noSsr
     >
       <CssBaseline />
-      <AppRouter />
+      <Suspense fallback={<div>Loading page...</div>}>
+        <AppRouter />
+      </Suspense>
     </ThemeProvider>
   );
 }
