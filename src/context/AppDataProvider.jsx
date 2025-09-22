@@ -18,7 +18,9 @@ export const AppDataProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppDataContext.Provider value={{ groups, expenses }}>
+    <AppDataContext.Provider
+      value={{ groups, expenses, setGroups, setExpenses }}
+    >
       {children}
     </AppDataContext.Provider>
   );

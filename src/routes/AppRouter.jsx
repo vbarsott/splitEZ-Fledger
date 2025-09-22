@@ -121,7 +121,7 @@ const AppRouter = () => {
       </Route>
     ),
     {
-      basename: "/splitEZ-Fledger",
+      basename: "/splitEZ-Fledger/",
     }
   );
 
