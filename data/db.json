@@ -11,40 +11,41 @@
       "numberOfPeople": 4
     },
     {
-      "id": "fdb6",
+      "id": "722a",
       "groupName": "Tavares",
       "numberOfPeople": 4
-    },
-    {
-      "id": "5e15",
-      "groupName": "Silva",
-      "numberOfPeople": 3
     }
   ],
   "expenses": [
     {
-      "whoPaid": "Family 1",
-      "paidWhat": "Bread",
-      "amountPaid": "20",
-      "id": "1"
+      "id": "72a0",
+      "amountPaid": 200,
+      "whoPaid": "Barsottis",
+      "paidWhat": "Meat"
     },
     {
-      "whoPaid": "Family 2",
-      "paidWhat": "Meat",
-      "amountPaid": "100",
-      "id": "2"
+      "id": "4a56",
+      "amountPaid": 40,
+      "whoPaid": "Machado",
+      "paidWhat": "Bread"
     },
     {
-      "whoPaid": "Family 3",
-      "paidWhat": "Dessert",
-      "amountPaid": "40",
-      "id": "3791"
-    },
-    {
-      "id": "2f11",
+      "id": "2189",
       "amountPaid": 50,
-      "whoPaid": "Family 4",
-      "paidWhat": "Beer"
+      "whoPaid": "Tavares",
+      "paidWhat": "Dessert"
+    },
+    {
+      "id": "11b6",
+      "amountPaid": 30,
+      "whoPaid": "Machado",
+      "paidWhat": "Soda"
+    },
+    {
+      "id": "398b",
+      "amountPaid": 20,
+      "whoPaid": "Tavares",
+      "paidWhat": "Rice"
     }
   ],
   "result": {

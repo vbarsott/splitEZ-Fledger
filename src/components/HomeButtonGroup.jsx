@@ -26,7 +26,12 @@ const HomeButtonGroup = () => {
         size="large"
       >
         {buttonItems.map((item) => (
-          <Button sx={{ fontSize: 20 }} component={NavLink} to={item.path}>
+          <Button
+            key={item.path}
+            sx={{ fontSize: 20 }}
+            component={NavLink}
+            to={item.path}
+          >
             {item.name}
           </Button>
         ))}
