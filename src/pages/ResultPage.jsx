@@ -1,58 +1,41 @@
-import { useState, Fragment, useEffect } from "react";
+import { Fragment, useMemo, useContext } from "react";
 import { Box, Container, Divider, Paper, Typography } from "@mui/material";
+import { AppDataContext } from "../context/AppDataContext.jsx";
+import BalanceCard from "../components/BalanceCard.jsx";
+import GroupBalanceItem from "../components/GroupBalanceItem.jsx";
 
 const ResultPage = () => {
-  const [groups, setGroups] = useState([]);
-  const [expenses, setExpenses] = useState([]);
+  const { groups, expenses } = useContext(AppDataContext);
 
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const res = await fetch("/api/groups");
-        const data = await res.json();
-        setGroups(data);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
+  const { total, valuePerPerson, groupsBalances } = useMemo(() => {
+    let total = 0;
+    let numberOfPeople = 0;
+    const balances = groups.map((group) => ({
+      ...group,
+      totalPaid: 0,
+      balance: 0,
+    }));
+
+    balances.forEach((gb) => {
+      numberOfPeople += Number(gb.numberOfPeople);
+    });
+
+    expenses.forEach((expense) => {
+      total += Number(expense.amountPaid);
+      const group = balances.find((gb) => gb.groupName === expense.whoPaid);
+      if (group) {
+        group.totalPaid += Number(expense.amountPaid);
       }
-    };
-    fetchGroups();
-  }, []);
+    });
 
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const res = await fetch("/api/expenses");
-        const data = await res.json();
-        setExpenses(data);
-      } catch (error) {
-        console.error("Error fetching expenses:", error);
-      }
-    };
-    fetchExpenses();
-  }, []);
+    const valuePerPerson = numberOfPeople > 0 ? total / numberOfPeople : 0;
 
-  let total = 0;
-  let groupsBalances = groups.map((group) => ({ ...group }));
-  let numberOfPeople = 0;
+    balances.forEach((gb) => {
+      gb.balance = gb.totalPaid - gb.numberOfPeople * valuePerPerson;
+    });
 
-  groupsBalances.map((gb) => {
-    gb.totalPaid = 0;
-    gb.balance = 0;
-    numberOfPeople += Number(gb.numberOfPeople);
-  });
-
-  expenses.map((expense) => {
-    total += Number(expense.amountPaid);
-    const group = groupsBalances.find((gb) => gb.groupName === expense.whoPaid);
-    if (group) {
-      group.totalPaid += Number(expense.amountPaid);
-    }
-  });
-
-  const valuePerPerson = numberOfPeople > 0 ? total / numberOfPeople : 0;
-  groupsBalances.map((gb) => {
-    gb.balance = gb.totalPaid - gb.numberOfPeople * valuePerPerson;
-  });
+    return { total, valuePerPerson, groupsBalances: balances };
+  }, [groups, expenses]);
 
   return (
     <>
@@ -83,35 +66,12 @@ const ResultPage = () => {
               Step 3: Check the result
             </Typography>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                border: "1px solid",
-                borderColor: "grey.400",
-                borderRadius: 1,
-                padding: "16.5px 14px",
-              }}
-            >
-              <Typography>Total</Typography>
-              <Typography>{total.toFixed(2)}</Typography>
-            </Box>
+            <BalanceCard label="Total" value={`CAD$ ${total.toFixed(2)}`} />
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                border: "1px solid",
-                borderColor: "grey.400",
-                borderRadius: 1,
-                padding: "16.5px 14px",
-              }}
-            >
-              <Typography>Value per person:</Typography>
-              <Typography>CAD$ {valuePerPerson.toFixed(2)}</Typography>
-            </Box>
+            <BalanceCard
+              label="Value per person:"
+              value={`CAD$ ${valuePerPerson.toFixed(2)}`}
+            />
           </Paper>
 
           <Paper
@@ -132,27 +92,7 @@ const ResultPage = () => {
 
             {groupsBalances.map((gb, index) => (
               <Fragment key={gb.id}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 1,
-                    alignItems: "center",
-                    py: 1,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      textAlign: "left",
-                      fontWeight: "bold",
-                      fontSize: "1.2rem",
-                      color: gb.balance < 0 ? "error.main" : "text.primary",
-                    }}
-                  >
-                    {gb.groupName}: CA$ {gb.balance.toFixed(2)}{" "}
-                    {gb.balance < 0 ? " (To pay)" : " (To receive)"}
-                  </Typography>
-                </Box>
+                <GroupBalanceItem group={gb} />
                 {index < groupsBalances.length - 1 && <Divider />}
               </Fragment>
             ))}
