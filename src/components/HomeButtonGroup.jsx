@@ -1,20 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { mainSectionRoutes } from "../routes/routesConfig.jsx";
 import { Button, ButtonGroup } from "@mui/material";
-
-const buttonItems = [
-  {
-    name: "Groups",
-    path: "/groups",
-  },
-  {
-    name: "Expenses",
-    path: "/expenses",
-  },
-  {
-    name: "Result",
-    path: "/result",
-  },
-];
 
 const HomeButtonGroup = () => {
   return (
@@ -25,14 +11,14 @@ const HomeButtonGroup = () => {
         color="accent"
         size="large"
       >
-        {buttonItems.map((item) => (
+        {mainSectionRoutes.map(({ name, path }) => (
           <Button
-            key={item.path}
+            key={path}
             sx={{ fontSize: 20 }}
             component={NavLink}
-            to={item.path}
+            to={path}
           >
-            {item.name}
+            {name}
           </Button>
         ))}
       </ButtonGroup>

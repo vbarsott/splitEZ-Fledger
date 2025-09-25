@@ -5,6 +5,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { mainSectionRoutes } from "../routes/routesConfig.jsx";
 import { AppDataProvider } from "../context/AppDataProvider.jsx";
 import MainLayout from "../layout/MainLayout";
 import MainSectionLayout from "../layout/MainSectionLayout";
@@ -24,9 +25,9 @@ const AppRouter = () => {
       <Route path="/" element={<MainLayout />}>
         <Route element={<MainSectionLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/groups" element={<GroupsPage />} />
-          <Route path="/expenses" element={<ExpensesPage />} />
-          <Route path="/result" element={<ResultPage />} />
+          {mainSectionRoutes.map(({ path }) => (
+            <Route key={path} path={path} element={lazyLoadPage(path)} />
+          ))}
         </Route>
         <Route path="/about" element={<AboutPage />} />
         <Route path="/account" element={<AccountPage />} />
@@ -44,6 +45,20 @@ const AppRouter = () => {
       <RouterProvider router={router} />
     </AppDataProvider>
   );
+};
+
+// Helper to map path to component
+const lazyLoadPage = (path) => {
+  switch (path) {
+    case "/groups":
+      return <GroupsPage />;
+    case "/expenses":
+      return <ExpensesPage />;
+    case "/result":
+      return <ResultPage />;
+    default:
+      return <NotFoundPage />;
+  }
 };
 
 export default AppRouter;
