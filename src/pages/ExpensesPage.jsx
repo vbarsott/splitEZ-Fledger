@@ -1,5 +1,6 @@
 import { useState, Fragment, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -57,8 +58,10 @@ const ExpensesPage = () => {
       try {
         const newExpense = await addExpense(expenseData);
         setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+        toast.success("Expense added!");
       } catch (error) {
         console.error("Error adding expense:", error);
+        toast.error("Failed to add expense.");
       } finally {
         setWhoPaid("");
         setPaidWhat("");
@@ -78,27 +81,45 @@ const ExpensesPage = () => {
   }, []);
 
   const handleDeleteClick = useCallback(
-    (expenseId) => {
-      deleteExpense(expenseId);
-      setExpenses((prevExpenses) =>
-        prevExpenses.filter((e) => e.id !== expenseId)
-      );
+    async (expenseId) => {
+      try {
+        await deleteExpense(expenseId);
+        setExpenses((prevExpenses) =>
+          prevExpenses.filter((e) => e.id !== expenseId)
+        );
+        toast.success("Expense deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting expense:", error);
+        toast.error("Failed to delete expense.");
+      }
     },
     [deleteExpense, setExpenses]
   );
 
   const handleSaveClick = useCallback(async () => {
-    const updatedExpense = {
-      whoPaid: editState.whoPaid,
-      paidWhat: editState.paidWhat,
-      amountPaid: editState.amountPaid,
-    };
-    const result = await updateExpense(editState.id, updatedExpense);
-    setExpenses((prevExpenses) =>
-      prevExpenses.map((e) => (e.id === editState.id ? result : e))
-    );
-    setEditState({ id: null, whoPaid: "", paidWhat: "", amountPaid: "" });
+    try {
+      const updatedExpense = {
+        whoPaid: editState.whoPaid,
+        paidWhat: editState.paidWhat,
+        amountPaid: editState.amountPaid,
+      };
+      const result = await updateExpense(editState.id, updatedExpense);
+      setExpenses((prevExpenses) =>
+        prevExpenses.map((e) => (e.id === editState.id ? result : e))
+      );
+      toast.success("Changes saved successfully!");
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      toast.error("Failed to save changes.");
+    } finally {
+      setEditState({ id: null, whoPaid: "", paidWhat: "", amountPaid: "" });
+    }
   }, [editState, updateExpense, setExpenses]);
+
+  const handleCancelClick = () => {
+    setEditState({ id: null, whoPaid: "", paidWhat: "", amountPaid: "" });
+    toast.info("Edit cancelled.");
+  };
 
   return (
     <>
@@ -264,6 +285,9 @@ const ExpensesPage = () => {
                       />
                       <Button variant="contained" onClick={handleSaveClick}>
                         Save
+                      </Button>
+                      <Button variant="contained" onClick={handleCancelClick}>
+                        Cancel
                       </Button>
                     </>
                   ) : (

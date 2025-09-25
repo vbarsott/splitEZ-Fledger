@@ -1,5 +1,6 @@
 import { useState, useContext, useCallback, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -26,9 +27,6 @@ const GroupsPage = () => {
   const [groupName, setGroupName] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState("");
 
-  // const [editingGroupId, setEditingGroupId] = useState(null);
-  // const [editedGroupName, setEditedGroupName] = useState("");
-  // const [editedNumberOfPeople, setEditedNumberOfPeople] = useState("");
   const [editState, setEditState] = useState({ id: null, name: "", count: "" });
 
   const handleSubmit = useCallback(
@@ -43,8 +41,10 @@ const GroupsPage = () => {
       try {
         const newGroup = await addGroup(groupData);
         setGroups((prevGroups) => [...prevGroups, newGroup]);
+        toast.success("Group added!");
       } catch (error) {
         console.error("Error adding group:", error);
+        toast.error("Failed to add group.");
       } finally {
         setGroupName("");
         setNumberOfPeople("");
@@ -62,25 +62,44 @@ const GroupsPage = () => {
   }, []);
 
   const handleDeleteClick = useCallback(
-    (groupId) => {
-      deleteGroup(groupId);
-      setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
+    async (groupId) => {
+      try {
+        await deleteGroup(groupId);
+        setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
+        toast.success("Group deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting group:", error);
+        toast.error("Failed to delete group.");
+      }
     },
     [deleteGroup, setGroups]
   );
 
   const handleSaveClick = useCallback(async () => {
-    const updatedGroup = {
-      groupName: editState.name,
-      numberOfPeople: editState.count,
-    };
-    const result = await updateGroup(editState.id, updatedGroup);
-    setGroups((prevGroups) =>
-      prevGroups.map((g) => (g.id === editState.id ? result : g))
-    );
-    setEditState({ id: null, name: "", count: "" });
+    try {
+      const updatedGroup = {
+        groupName: editState.name,
+        numberOfPeople: editState.count,
+      };
+
+      const result = await updateGroup(editState.id, updatedGroup);
+      setGroups((prevGroups) =>
+        prevGroups.map((g) => (g.id === editState.id ? result : g))
+      );
+
+      toast.success("Changes saved successfully!");
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      toast.error("Failed to save changes.");
+    } finally {
+      setEditState({ id: null, name: "", count: "" });
+    }
   }, [editState, updateGroup, setGroups]);
 
+  const handleCancelClick = () => {
+    setEditState({ id: null, name: "", count: "" });
+    toast.info("Edit cancelled.");
+  };
   return (
     <>
       <Container maxWidth="sm">
@@ -206,6 +225,9 @@ const GroupsPage = () => {
                       />
                       <Button variant="contained" onClick={handleSaveClick}>
                         Save
+                      </Button>
+                      <Button variant="contained" onClick={handleCancelClick}>
+                        Cancel
                       </Button>
                     </>
                   ) : (
