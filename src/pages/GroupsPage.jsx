@@ -1,4 +1,4 @@
-import { useState, useContext, Fragment } from "react";
+import { useState, useContext, useCallback, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -6,6 +6,7 @@ import {
   Button,
   Container,
   Divider,
+  IconButton,
   Paper,
   TextField,
   Typography,
@@ -25,30 +26,60 @@ const GroupsPage = () => {
   const [groupName, setGroupName] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState("");
 
-  const [editingGroupId, setEditingGroupId] = useState(null);
-  const [editedGroupName, setEditedGroupName] = useState("");
-  const [editedNumberOfPeople, setEditedNumberOfPeople] = useState("");
+  // const [editingGroupId, setEditingGroupId] = useState(null);
+  // const [editedGroupName, setEditedGroupName] = useState("");
+  // const [editedNumberOfPeople, setEditedNumberOfPeople] = useState("");
+  const [editState, setEditState] = useState({ id: null, name: "", count: "" });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    const groupData = {
-      groupName,
-      numberOfPeople: Number(numberOfPeople),
+      const groupData = {
+        groupName,
+        numberOfPeople: Number(numberOfPeople),
+      };
+
+      try {
+        const newGroup = await addGroup(groupData);
+        setGroups((prevGroups) => [...prevGroups, newGroup]);
+      } catch (error) {
+        console.error("Error adding group:", error);
+      } finally {
+        setGroupName("");
+        setNumberOfPeople("");
+      }
+    },
+    [groupName, numberOfPeople, addGroup, setGroups]
+  );
+
+  const handleEditClick = useCallback((group) => {
+    setEditState({
+      id: group.id,
+      name: group.groupName,
+      count: group.numberOfPeople,
+    });
+  }, []);
+
+  const handleDeleteClick = useCallback(
+    (groupId) => {
+      deleteGroup(groupId);
+      setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
+    },
+    [deleteGroup, setGroups]
+  );
+
+  const handleSaveClick = useCallback(async () => {
+    const updatedGroup = {
+      groupName: editState.name,
+      numberOfPeople: editState.count,
     };
-
-    try {
-      const newGroup = await addGroup(groupData);
-      setGroups((prevGroups) => [...prevGroups, newGroup]);
-      setGroupName("");
-      setNumberOfPeople("");
-    } catch (error) {
-      console.error("Error adding group:", error);
-    } finally {
-      setGroupName("");
-      setNumberOfPeople("");
-    }
-  };
+    const result = await updateGroup(editState.id, updatedGroup);
+    setGroups((prevGroups) =>
+      prevGroups.map((g) => (g.id === editState.id ? result : g))
+    );
+    setEditState({ id: null, name: "", count: "" });
+  }, [editState, updateGroup, setGroups]);
 
   return (
     <>
@@ -105,7 +136,7 @@ const GroupsPage = () => {
                 name="numberOfPeople"
                 autoComplete="number-of-people"
                 value={numberOfPeople}
-                onChange={(e) => setNumberOfPeople(e.target.value)}
+                onChange={(e) => setNumberOfPeople(Number(e.target.value))}
                 variant="outlined"
                 fullWidth
                 required
@@ -143,47 +174,37 @@ const GroupsPage = () => {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    gap: 1,
                     alignItems: "center",
+                    gap: 1,
                     py: 1,
                   }}
                 >
-                  {editingGroupId === group.id ? (
+                  {editState.id === group.id ? (
                     <>
                       <TextField
-                        value={editedGroupName}
-                        onChange={(e) => setEditedGroupName(e.target.value)}
+                        value={editState.name}
+                        onChange={(e) =>
+                          setEditState((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
                         variant="outlined"
                         fullWidth
                       />
                       <TextField
                         type="number"
-                        value={editedNumberOfPeople}
+                        value={editState.count}
                         onChange={(e) =>
-                          setEditedNumberOfPeople(e.target.value)
+                          setEditState((prev) => ({
+                            ...prev,
+                            count: Number(e.target.value),
+                          }))
                         }
                         variant="outlined"
                         fullWidth
                       />
-                      <Button
-                        variant="contained"
-                        onClick={async () => {
-                          const updatedGroup = {
-                            groupName: editedGroupName,
-                            numberOfPeople: editedNumberOfPeople,
-                          };
-                          const result = await updateGroup(
-                            group.id,
-                            updatedGroup
-                          );
-                          setGroups((prevGroups) =>
-                            prevGroups.map((g) =>
-                              g.id === group.id ? result : g
-                            )
-                          );
-                          setEditingGroupId(null);
-                        }}
-                      >
+                      <Button variant="contained" onClick={handleSaveClick}>
                         Save
                       </Button>
                     </>
@@ -207,23 +228,23 @@ const GroupsPage = () => {
                       alignItems: "center",
                     }}
                   >
-                    <EditIcon
-                      onClick={() => {
-                        setEditingGroupId(group.id);
-                        setEditedGroupName(group.groupName);
-                        setEditedNumberOfPeople(group.numberOfPeople);
-                      }}
-                      sx={{ fontSize: 30, color: theme.palette.text.icon }}
-                    />
-                    <DeleteForeverIcon
-                      onClick={() => {
-                        deleteGroup(group.id);
-                        setGroups((prevGroups) =>
-                          prevGroups.filter((g) => g.id !== group.id)
-                        );
-                      }}
-                      sx={{ fontSize: 30, color: theme.palette.text.icon }}
-                    />
+                    <IconButton
+                      onClick={() => handleEditClick(group)}
+                      aria-label="Edit group"
+                    >
+                      <EditIcon
+                        sx={{ fontSize: 30, color: theme.palette.text.icon }}
+                      />
+                    </IconButton>
+
+                    <IconButton
+                      onClick={() => handleDeleteClick(group.id)}
+                      aria-label="Delete group"
+                    >
+                      <DeleteForeverIcon
+                        sx={{ fontSize: 30, color: theme.palette.text.icon }}
+                      />
+                    </IconButton>
                   </Box>
                 </Box>
 
