@@ -1,4 +1,4 @@
-import { useState, Fragment, useContext } from "react";
+import { useState, Fragment, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -6,13 +6,14 @@ import {
   Button,
   Container,
   Divider,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
   Typography,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
 } from "@mui/material";
 import { AppDataContext } from "../context/AppDataContext.jsx";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -36,34 +37,68 @@ const ExpensesPage = () => {
   const [whoPaid, setWhoPaid] = useState("");
   const [paidWhat, setPaidWhat] = useState("");
 
-  const [editingExpenseId, setEditingExpenseId] = useState(null);
-  const [editedWhoPaid, setEditedWhoPaid] = useState("");
-  const [editedPaidWhat, setEditedPaidWhat] = useState("");
-  const [editedAmountPaid, setEditedAmountPaid] = useState("");
+  const [editState, setEditState] = useState({
+    id: null,
+    whoPaid: "",
+    paidWhat: "",
+    amountPaid: "",
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    const expenseData = {
-      amountPaid: Number(amountPaid),
-      whoPaid,
-      paidWhat,
+      const expenseData = {
+        amountPaid: Number(amountPaid),
+        whoPaid,
+        paidWhat,
+      };
+
+      try {
+        const newExpense = await addExpense(expenseData);
+        setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+      } catch (error) {
+        console.error("Error adding expense:", error);
+      } finally {
+        setWhoPaid("");
+        setPaidWhat("");
+        setAmountPaid("");
+      }
+    },
+    [amountPaid, whoPaid, paidWhat, addExpense, setExpenses]
+  );
+
+  const handleEditClick = useCallback((expense) => {
+    setEditState({
+      id: expense.id,
+      whoPaid: expense.whoPaid,
+      paidWhat: expense.paidWhat,
+      amountPaid: expense.amountPaid,
+    });
+  }, []);
+
+  const handleDeleteClick = useCallback(
+    (expenseId) => {
+      deleteExpense(expenseId);
+      setExpenses((prevExpenses) =>
+        prevExpenses.filter((e) => e.id !== expenseId)
+      );
+    },
+    [deleteExpense, setExpenses]
+  );
+
+  const handleSaveClick = useCallback(async () => {
+    const updatedExpense = {
+      whoPaid: editState.whoPaid,
+      paidWhat: editState.paidWhat,
+      amountPaid: editState.amountPaid,
     };
-
-    try {
-      const newExpense = await addExpense(expenseData);
-      setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
-      setWhoPaid("");
-      setPaidWhat("");
-      setAmountPaid("");
-    } catch (error) {
-      console.error("Error adding expense:", error);
-    } finally {
-      setWhoPaid("");
-      setPaidWhat("");
-      setAmountPaid("");
-    }
-  };
+    const result = await updateExpense(editState.id, updatedExpense);
+    setExpenses((prevExpenses) =>
+      prevExpenses.map((e) => (e.id === editState.id ? result : e))
+    );
+    setEditState({ id: null, whoPaid: "", paidWhat: "", amountPaid: "" });
+  }, [editState, updateExpense, setExpenses]);
 
   return (
     <>
@@ -136,7 +171,7 @@ const ExpensesPage = () => {
               placeholder="CA$"
               autoComplete="off"
               value={amountPaid}
-              onChange={(e) => setAmountPaid(e.target.value)}
+              onChange={(e) => setAmountPaid(Number(e.target.value))}
               variant="outlined"
               fullWidth
               required
@@ -178,7 +213,7 @@ const ExpensesPage = () => {
                     py: 1,
                   }}
                 >
-                  {editingExpenseId === expense.id ? (
+                  {editState.id === expense.id ? (
                     <>
                       <FormControl fullWidth required>
                         <InputLabel id="whoPaid-label-edit">Who</InputLabel>
@@ -187,8 +222,13 @@ const ExpensesPage = () => {
                           aria-labelledby="whoPaid-label-edit"
                           id="editedWhoPaid"
                           name="editedWhoPaid"
-                          value={editedWhoPaid}
-                          onChange={(e) => setEditedWhoPaid(e.target.value)}
+                          value={editState.whoPaid}
+                          onChange={(e) =>
+                            setEditState((prev) => ({
+                              ...prev,
+                              whoPaid: e.target.value,
+                            }))
+                          }
                           label="Who"
                         >
                           {groups.map((group) => (
@@ -200,38 +240,29 @@ const ExpensesPage = () => {
                       </FormControl>
 
                       <TextField
-                        value={editedPaidWhat}
-                        onChange={(e) => setEditedPaidWhat(e.target.value)}
+                        value={editState.paidWhat}
+                        onChange={(e) =>
+                          setEditState((prev) => ({
+                            ...prev,
+                            paidWhat: e.target.value,
+                          }))
+                        }
                         variant="outlined"
                         fullWidth
                       />
                       <TextField
                         type="number"
-                        value={editedAmountPaid}
-                        onChange={(e) => setEditedAmountPaid(e.target.value)}
+                        value={editState.amountPaid}
+                        onChange={(e) =>
+                          setEditState((prev) => ({
+                            ...prev,
+                            amountPaid: Number(e.target.value),
+                          }))
+                        }
                         variant="outlined"
                         fullWidth
                       />
-                      <Button
-                        variant="contained"
-                        onClick={async () => {
-                          const updatedExpense = {
-                            whoPaid: editedWhoPaid,
-                            paidWhat: editedPaidWhat,
-                            amountPaid: editedAmountPaid,
-                          };
-                          const result = await updateExpense(
-                            expense.id,
-                            updatedExpense
-                          );
-                          setExpenses((prevExpenses) =>
-                            prevExpenses.map((e) =>
-                              e.id === expense.id ? result : e
-                            )
-                          );
-                          setEditingExpenseId(null);
-                        }}
-                      >
+                      <Button variant="contained" onClick={handleSaveClick}>
                         Save
                       </Button>
                     </>
@@ -256,24 +287,23 @@ const ExpensesPage = () => {
                       alignItems: "center",
                     }}
                   >
-                    <EditIcon
-                      onClick={() => {
-                        setEditingExpenseId(expense.id);
-                        setEditedWhoPaid(expense.whoPaid);
-                        setEditedPaidWhat(expense.paidWhat);
-                        setEditedAmountPaid(expense.amountPaid);
-                      }}
-                      sx={{ fontSize: 30, color: theme.palette.text.icon }}
-                    />
-                    <DeleteForeverIcon
-                      onClick={() => {
-                        deleteExpense(expense.id);
-                        setExpenses((prevExpenses) =>
-                          prevExpenses.filter((e) => e.id !== expense.id)
-                        );
-                      }}
-                      sx={{ fontSize: 30, color: theme.palette.text.icon }}
-                    />
+                    <IconButton
+                      onClick={() => handleEditClick(expense)}
+                      aria-label="Edit expense"
+                    >
+                      <EditIcon
+                        sx={{ fontSize: 30, color: theme.palette.text.icon }}
+                      />
+                    </IconButton>
+
+                    <IconButton
+                      onClick={() => handleDeleteClick(expense.id)}
+                      aria-label="Delete expense"
+                    >
+                      <DeleteForeverIcon
+                        sx={{ fontSize: 30, color: theme.palette.text.icon }}
+                      />
+                    </IconButton>
                   </Box>
                 </Box>
 

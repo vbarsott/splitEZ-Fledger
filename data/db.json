@@ -11,45 +11,58 @@
       "numberOfPeople": 4
     },
     {
-      "id": "722a",
+      "id": "fdb6",
       "groupName": "Tavares",
       "numberOfPeople": 4
+    },
+    {
+      "groupName": "Newtons",
+      "numberOfPeople": 1,
+      "id": "8783"
     }
   ],
   "expenses": [
     {
-      "id": "72a0",
+      "whoPaid": "Barsottis",
+      "paidWhat": "Bread",
+      "amountPaid": "20",
+      "id": "1"
+    },
+    {
+      "whoPaid": "Machado",
+      "paidWhat": "Meat",
+      "amountPaid": "100",
+      "id": "2"
+    },
+    {
+      "whoPaid": "Newtons",
+      "paidWhat": "Beer",
+      "amountPaid": 50,
+      "id": "2f11"
+    },
+    {
+      "id": "237e",
       "amountPaid": 200,
       "whoPaid": "Barsottis",
-      "paidWhat": "Meat"
+      "paidWhat": "Cheese"
     },
     {
-      "id": "4a56",
-      "amountPaid": 40,
-      "whoPaid": "Machado",
-      "paidWhat": "Bread"
-    },
-    {
-      "id": "2189",
-      "amountPaid": 50,
-      "whoPaid": "Tavares",
-      "paidWhat": "Dessert"
-    },
-    {
-      "id": "11b6",
+      "id": "278b",
       "amountPaid": 30,
       "whoPaid": "Machado",
-      "paidWhat": "Soda"
+      "paidWhat": "salad"
     },
     {
-      "id": "398b",
-      "amountPaid": 20,
       "whoPaid": "Tavares",
-      "paidWhat": "Rice"
+      "paidWhat": "cake",
+      "amountPaid": "60",
+      "id": "677d"
+    },
+    {
+      "id": "6c4f",
+      "amountPaid": 500,
+      "whoPaid": "Newtons",
+      "paidWhat": "some"
     }
-  ],
-  "result": {
-    "totalSpent": 120,
-    "summary": "Family 1 spent more than Family 2"
-  }
+  ]
 }
