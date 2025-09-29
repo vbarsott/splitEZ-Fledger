@@ -14,14 +14,19 @@
       "groupName": "Tavares",
       "numberOfPeople": 4,
       "id": "5f9c"
+    },
+    {
+      "id": "664c",
+      "groupName": "nnn",
+      "numberOfPeople": 3
     }
   ],
   "expenses": [
     {
-      "id": "72a0",
-      "amountPaid": 200,
       "whoPaid": "Barsottis",
-      "paidWhat": "Meat"
+      "paidWhat": "Meat",
+      "amountPaid": 200,
+      "id": "72a0"
     },
     {
       "id": "4a56",
@@ -34,6 +39,12 @@
       "paidWhat": "Dessert",
       "amountPaid": 60,
       "id": "2189"
+    },
+    {
+      "id": "ee63",
+      "amountPaid": 4,
+      "whoPaid": "Barsottis",
+      "paidWhat": "pao"
     }
   ],
   "result": {

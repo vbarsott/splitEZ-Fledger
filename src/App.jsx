@@ -3,6 +3,7 @@ import theme from "./assets/styles/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import AppRouter from "./routes/AppRouter";
+import Spinner from "./components/Spinner";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       noSsr
     >
       <CssBaseline />
-      <Suspense fallback={<div>Loading page...</div>}>
+      <Suspense fallback={<Spinner loading={true} />}>
         <AppRouter />
       </Suspense>
     </ThemeProvider>

@@ -1,6 +1,7 @@
 import { useState, Fragment, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../components/Spinner.jsx";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -33,6 +34,7 @@ const ExpensesPage = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [amountPaid, setAmountPaid] = useState("");
   const [whoPaid, setWhoPaid] = useState("");
@@ -48,6 +50,7 @@ const ExpensesPage = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+      setLoading(true);
 
       const expenseData = {
         amountPaid: Number(amountPaid),
@@ -63,6 +66,7 @@ const ExpensesPage = () => {
         console.error("Error adding expense:", error);
         toast.error("Failed to add expense.");
       } finally {
+        setLoading(false);
         setWhoPaid("");
         setPaidWhat("");
         setAmountPaid("");
@@ -82,6 +86,7 @@ const ExpensesPage = () => {
 
   const handleDeleteClick = useCallback(
     async (expenseId) => {
+      setLoading(true);
       try {
         await deleteExpense(expenseId);
         setExpenses((prevExpenses) =>
@@ -91,6 +96,8 @@ const ExpensesPage = () => {
       } catch (error) {
         console.error("Error deleting expense:", error);
         toast.error("Failed to delete expense.");
+      } finally {
+        setLoading(false);
       }
     },
     [deleteExpense, setExpenses]
@@ -98,6 +105,7 @@ const ExpensesPage = () => {
 
   const handleSaveClick = useCallback(async () => {
     try {
+      setLoading(true);
       const updatedExpense = {
         whoPaid: editState.whoPaid,
         paidWhat: editState.paidWhat,
@@ -112,6 +120,7 @@ const ExpensesPage = () => {
       console.error("Error saving changes:", error);
       toast.error("Failed to save changes.");
     } finally {
+      setLoading(false);
       setEditState({ id: null, whoPaid: "", paidWhat: "", amountPaid: "" });
     }
   }, [editState, updateExpense, setExpenses]);
@@ -120,6 +129,8 @@ const ExpensesPage = () => {
     setEditState({ id: null, whoPaid: "", paidWhat: "", amountPaid: "" });
     toast.info("Edit cancelled.");
   };
+
+  if (loading) return <Spinner loading={true} />;
 
   return (
     <>
