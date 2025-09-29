@@ -1,6 +1,7 @@
 import { useState, useContext, useCallback, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../components/Spinner.jsx";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -23,6 +24,7 @@ const GroupsPage = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [groupName, setGroupName] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState("");
@@ -32,6 +34,7 @@ const GroupsPage = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+      setLoading(true);
 
       const groupData = {
         groupName,
@@ -46,6 +49,7 @@ const GroupsPage = () => {
         console.error("Error adding group:", error);
         toast.error("Failed to add group.");
       } finally {
+        setLoading(false);
         setGroupName("");
         setNumberOfPeople("");
       }
@@ -63,6 +67,7 @@ const GroupsPage = () => {
 
   const handleDeleteClick = useCallback(
     async (groupId) => {
+      setLoading(true);
       try {
         await deleteGroup(groupId);
         setGroups((prevGroups) => prevGroups.filter((g) => g.id !== groupId));
@@ -70,6 +75,8 @@ const GroupsPage = () => {
       } catch (error) {
         console.error("Error deleting group:", error);
         toast.error("Failed to delete group.");
+      } finally {
+        setLoading(false);
       }
     },
     [deleteGroup, setGroups]
@@ -77,6 +84,7 @@ const GroupsPage = () => {
 
   const handleSaveClick = useCallback(async () => {
     try {
+      setLoading(true);
       const updatedGroup = {
         groupName: editState.name,
         numberOfPeople: editState.count,
@@ -92,6 +100,7 @@ const GroupsPage = () => {
       console.error("Error saving changes:", error);
       toast.error("Failed to save changes.");
     } finally {
+      setLoading(false);
       setEditState({ id: null, name: "", count: "" });
     }
   }, [editState, updateGroup, setGroups]);
@@ -100,6 +109,9 @@ const GroupsPage = () => {
     setEditState({ id: null, name: "", count: "" });
     toast.info("Edit cancelled.");
   };
+
+  if (loading) return <Spinner loading={true} />;
+
   return (
     <>
       <Container maxWidth="sm">
