@@ -1,1 +1,0 @@
-import{j as e,C as t,B as n,T as r}from"./index-CHwEwIFo.js";const s=()=>e.jsx(e.Fragment,{children:e.jsx(t,{maxWidth:"xl",children:e.jsx(n,{sx:{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:2,flexWrap:"wrap"},children:e.jsx(r,{variant:"h3",component:"h1",sx:{py:2},children:"About SplitEZ"})})})});export{s as default};
