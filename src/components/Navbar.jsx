@@ -1,5 +1,9 @@
-import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+  useMsal,
+} from "@azure/msal-react";
 import {
   AppBar,
   Box,
@@ -9,20 +13,41 @@ import {
   IconButton,
   Slide,
   Toolbar,
+  Tooltip,
 } from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import BrandLogo from "./BrandLogo";
 import DrawerList from "./DrawerList";
+import { loginRequest } from "../auth/authConfig";
 
 const drawerWidth = 240;
 
 const Navbar = ({ window, navItems }) => {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
   const container = window ? () => window().document.body : undefined;
-  const navigate = useNavigate();
+
+  const { instance } = useMsal();
+
+  const handleLoginRedirect = () => {
+    instance.loginRedirect(loginRequest).catch((error) => console.log(error));
+  };
+
+  const handleLogoutRedirect = async () => {
+    try {
+      const account = instance.getActiveAccount();
+      if (account) {
+        await instance.logoutRedirect({ account });
+      } else {
+        await instance.logoutRedirect();
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <>
@@ -55,18 +80,37 @@ const Navbar = ({ window, navItems }) => {
               </Box>
 
               <Box>
-                <IconButton size="large" color="inherit">
-                  <SearchIcon />
-                </IconButton>
+                <Tooltip title="Search">
+                  <IconButton size="large" color="inherit">
+                    <SearchIcon />
+                  </IconButton>
+                </Tooltip>
 
-                <IconButton
-                  size="large"
-                  color="inherit"
-                  aria-label="search"
-                  onClick={() => navigate("/login")}
-                >
-                  <AccountCircle />
-                </IconButton>
+                <AuthenticatedTemplate>
+                  <Tooltip title="Logout">
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      aria-label="logout"
+                      onClick={handleLogoutRedirect}
+                    >
+                      <LogoutIcon />
+                    </IconButton>
+                  </Tooltip>
+                </AuthenticatedTemplate>
+
+                <UnauthenticatedTemplate>
+                  <Tooltip title="Login">
+                    <IconButton
+                      size="large"
+                      color="inherit"
+                      aria-label="login"
+                      onClick={handleLoginRedirect}
+                    >
+                      <LoginIcon />
+                    </IconButton>
+                  </Tooltip>
+                </UnauthenticatedTemplate>
               </Box>
             </Box>
           </Toolbar>
